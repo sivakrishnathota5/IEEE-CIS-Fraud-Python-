@@ -1,1 +1,70 @@
+import pandas as pd
+import numpy as np
+import scipy as st
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.utils import resample 
+from sklearn.metrics import roc_curve,roc_auc_curve,precision_recall_curve,confusion_matrix
+from sklearn.preprocessing import LableEncoder
+
+df_train_txn=pd.read_csv("")
+df_train_identity=pd.read_csv("")
+df_test_txn=pd.read_csv("")
+df_test_identity=pd.read_csv("")
+
+print("Train txn shape",df_train_txn.shape)
+print("Train identity shape",df_train_identity.shape)
+print("Test txn shape",df_test_txn.shape)
+print("Test identity shape",df_test_identity.shape)
+
+df_train=pd.merge([df_train_txn,df_train_identity],how='left',on='TransactionID')
+df_test=pd.merge([df_test_txn,df_test_identity],how='left',on='TransactionID')
+
+print("Train shape after merge identity and txn data frames ",df_train.shape)
+print("Test shape after merge identity and txn data frames ",df_test.shape)
+# Using pandas we can plot histogram 
+df_train["TransactionDT"].plot(kind='hist',bins=100,lable="Train",title="Train & Test TransactionDT distribution")
+df_test["TransactionDT"].plot(kind='hist',bins=100,lable="Test")
+plt.legend()
+plt.show()
+
+# using seaborn histogram
+# fig=figure(figsize=(15,6))
+sns.distplot(df_train["TransactionDT"],bins=100)
+sns.distplot(df_test["TransactionDT"],bins=100)
+
+ax=df_train.plot(x="TransactionDT",y="TransactionAmt",kind="scatter",title='-',ylim=(0,5000),figsize(15,6))
+df_test.plot(x="TransactionDT",y="TransactionAmt",kind="scatter",ylim=(0,500)ax=ax)
+df_train.loc[df_train["isFraud"]==1].plot((x="TransactionDT",y="TransactionAmt",kind="scatter",ylim=(0,500)ax=ax)
+
+fig,((ax1,ax2),(ax3,ax4))=plt.subplot(2,2,figsize(15,6))
+df_train.loc[df_train["isFraud"]==1]["TransactionAmt"].apply(np.log).plot(kind="hist",bins=100,ax=ax1)
+df_train.loc[df_train["isFraud"]==0]["TransactionAmt"].apply(np.log).plot(kind="hist",bins=100,ax=ax2)
+df_train.loc[df_train["isFraud"]==0]["TransactionAmt"].plot(kind="hist",bins=100,ax=ax3)
+df_train.loc[df_train["isFraud"]==0]["TransactionAmt"].plot(kind="hist",bins=100,ax=ax4)
+plt.show()
+
+df_train.groupby("ProductCD")["TransactionID"].count().sort_index().plot(kind="barh",title='-',figsize=(15,3))
+
+# Card1 to Card6
+card_cols=[c for c in df_train.columns if "card" in c ]
+
+for c in card_cols:
+   if df_train[c].dtype in ['int64','float64']:
+      df_train[c].plot(kind="hist",bins=50,title=c)
+
+df_train_fraud=df_train.loc[df_train["isFraud"]==1]
+df_train_nonfraud=df_train.loc[df_train["isFraud"]==0]
+fig,((ax1,ax2),(ax3,ax4))=plt.subplot(2,2,figsize=(15,6))
+df_train_fraud.groupby("card4")["card4"].count().plot(kind="barh",title="Fraud Card4",ax=ax1)
+df_train_nonfraud.groupby("card4")["card4"].count().plot(kind="barh",title="non Fraud Card4",ax=ax2)
+df_train_fraud.groupby("card6")["card6"].count().plot(kind="barh",title="Fraud Card6",ax=ax3)
+df_train_nonfraud.groupby("card6")["card6"].count().plot(kind="barh",title="non Fraud Card6",ax=ax4)
+
+
+
+
+
+      
+
 
