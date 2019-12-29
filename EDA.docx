@@ -1,3 +1,18 @@
+1. Load Tables 
+2. Merge Identity and txn tables for both Test & Train 
+3. Target Variable Isfraud =0 means genuine txn isfraud=1 means fraud txn 
+4. Check count for target variables [for identity Imbalce data or balance data ]
+5. TransactionDT is a time delta need to check distribution of this columns for both test and train data 
+6. plot scatter plot for date and amount for test and train data 
+7. check amount distribution for both test and train data 
+8. Amount mean, min ,max,mode for both genuine txn & fraud txn 
+9. ProductCD count plot for both genuine txn & fraud txn 
+10. card6 count plot for for both genuine txn & fraud txn 
+11. card4 count plot for both genuine txn & fraud txn 
+12. card1,card2,card3,card5 check distributions 
+13. 
+
+
 import pandas as pd
 import numpy as np
 import scipy as st
